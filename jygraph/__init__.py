@@ -1,5 +1,6 @@
 from bottle import Bottle, route
 import graphene
+import json
 
 class Query(graphene.ObjectType):
       hello = graphene.String(description='A typical hello world')
@@ -19,16 +20,8 @@ simple_app = app = Bottle()
 
 @app.route('/hello/<name>')
 def index(name):
-
-    query = '''
-      query SayHello {
-            hello
-            ping(to:name)
-      }
-'''
-
-    return str(schema.execute(query))
-
-@app.route('/bye/<name>')
-def index(name):
-    return "Bye %s" % name
+    result = schema.execute('{ hello }')
+    response = {'data': result.data,
+                'errors': result.errors,
+                'invalid': result.invalid}
+    return json.dumps(response)
