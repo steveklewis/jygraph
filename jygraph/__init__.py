@@ -3,7 +3,7 @@ import graphene
 
 class Query(graphene.ObjectType):
       hello = graphene.String(description='A typical hello world')
-      ping = graphene.String(description='Ping someone,
+      ping = graphene.String(description='Ping someone',
                              to=graphene.String())
 
       def resolve_hello(self, args, info):
@@ -27,7 +27,7 @@ def index(name):
       }
 '''
 
-    return schema.execute(query)
+    return "Heyyy" #schema.execute(query)
 
 @app.route('/bye/<name>')
 def index(name):
