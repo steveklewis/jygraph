@@ -27,7 +27,7 @@ def index(name):
       }
 '''
 
-    return "Heyyy" #schema.execute(query)
+    return str(schema.execute(query))
 
 @app.route('/bye/<name>')
 def index(name):
