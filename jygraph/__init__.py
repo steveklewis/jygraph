@@ -1,4 +1,4 @@
-from bottle import Bottle, route
+from bottle import Bottle, route, request, run
 import graphene
 import json
 
@@ -18,10 +18,20 @@ schema = graphene.Schema(query=Query)
 simple_app = app = Bottle()
 
 
-@app.route('/hello/<name>')
+@app.route('/hello/<name>', method='POST')
 def index(name):
-    result = schema.execute('{ hello }')
+    query_body = request.params['q']
+
+    print query_body
+    print len(query_body)
+    print type(query_body)
+    print dir(query_body)
+    result = schema.execute(query_body)
     response = {'data': result.data,
                 'errors': result.errors,
                 'invalid': result.invalid}
     return json.dumps(response)
+
+
+if __name__ == '__main__':
+    run(host='localhost', port=8080)
